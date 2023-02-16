@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "705382164477",
+    "project_id": "djiguyaservice",
+    "storage_bucket": "djiguyaservice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705382164477:android:3b4ba4e69f6459bc961b94",
+        "android_client_info": {
+          "package_name": "tech.yugosoft.djiguyaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705382164477-r4he70m0aotcie871ehmmoalp1vlf15e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.yugosoft.djiguyaapp",
+            "certificate_hash": "fc6e8edb4b390344c3e636621e95ee6d105044dd"
+          }
+        },
+        {
+          "client_id": "705382164477-7nhgb7oih3c7er44ihgrmkcqljmqpt3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBypQCt8l4hu4LkLhZDoiSkm4vPRPZ45jc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705382164477-7nhgb7oih3c7er44ihgrmkcqljmqpt3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
