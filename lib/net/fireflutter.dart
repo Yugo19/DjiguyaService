@@ -9,32 +9,40 @@ class AuthService {
     return user != null ? Users(uid: user.uid) : null;
   }
 
-  Future<bool> signIn(String email, String password) async {
+  Stream<Users?> get user {
+    return _auth
+        .authStateChanges()
+        .map((User? user) => _userFromFireBaseUser(user!));
+  }
+
+  Future signIn(String email, String password) async {
     try {
-      await FirebaseAuth.instance
+      UserCredential result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      return true;
+      User? user = result.user;
+      return _userFromFireBaseUser(user!);
     } catch (e) {
       print(e);
-      return false;
+      return null;
     }
   }
 
-  Future<bool> register(String email, String password) async {
+  Future register(String email, String password) async {
     try {
-      await FirebaseAuth.instance
+      UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      return true;
+      User? user = result.user;
+      return _userFromFireBaseUser(user!);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak');
       } else if (e.code == 'email-alreasy-in-use') {
         print('The accountt already exist for that email.');
       }
-      return false;
+      return null;
     } catch (e) {
       print(e.toString());
-      return false;
+      return null;
     }
   }
 

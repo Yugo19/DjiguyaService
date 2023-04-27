@@ -1,38 +1,37 @@
 import 'package:djiguya_service_app/net/fireflutter.dart';
-import 'package:djiguya_service_app/ui/Home.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
+import 'Home.dart';
+
+class Register extends StatefulWidget {
   final Function toggleView;
-  Login({required this.toggleView});
+  Register({required this.toggleView});
+
   @override
-  _LoginState createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
-  TextEditingController _emailField = TextEditingController();
-  TextEditingController _passWordField = TextEditingController();
-
-  final AuthService _auth = AuthService();
+class _RegisterState extends State<Register> {
+  AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: Text("Connexion"),
+        title: Text("Register"),
         elevation: 0.0,
         actions: <Widget>[
           TextButton.icon(
               onPressed: () {
                 widget.toggleView();
               },
-              icon: Icon(Icons.person),
-              label: Text("Register"))
+              icon: Icon(Icons.login),
+              label: Text("Sign In"))
         ],
       ),
       body: Container(
@@ -52,7 +51,6 @@ class _LoginState extends State<Login> {
                       email = val;
                     });
                   },
-                  controller: _emailField,
                   decoration: InputDecoration(
                       hintText: "somethin@email.com",
                       hintStyle: TextStyle(
@@ -72,7 +70,6 @@ class _LoginState extends State<Login> {
                       password = val;
                     });
                   },
-                  controller: _passWordField,
                   obscureText: true,
                   decoration: InputDecoration(
                       hintText: "Password",
@@ -92,21 +89,26 @@ class _LoginState extends State<Login> {
                       color: Colors.white),
                   child: MaterialButton(
                     onPressed: () async {
-                      if (_formkey.currentState!.validate()) {}
-                      dynamic result = await _auth.AnomSignIn();
-                      if (result != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(),
-                          ),
-                        );
-                        print(result.uid);
+                      if (_formkey.currentState!.validate()) {
+                        dynamic shouldNavigate =
+                            await _auth.register(email, password);
+                        if (shouldNavigate == null) {
+                          setState(() {
+                            error = 'Please supply a valid email';
+                          });
+                        }
                       }
                     },
-                    child: Text("Login"),
+                    child: Text("Register"),
                   ),
                 ),
+                SizedBox(
+                  height: 12.0,
+                ),
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                )
               ],
             ),
           )),
